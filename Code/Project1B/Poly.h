@@ -27,7 +27,7 @@ public:
 	const bool operator<=(const int &exp) { return (exponent < exp) || (exponent = exp); } //Less or equal operator overload. Used to compare exponents
 
 	term operator+(const term &rhs) {
-		return term(exponent, coefficient + rhs.getCoefficient());
+		return term(coefficient + rhs.getCoefficient(), exponent);
 	}
 
 	friend const bool operator<(int exponent, const term &rhs) { return exponent < rhs.exponent; } //Less than operator overload. Used to compare exponents
@@ -40,12 +40,13 @@ private:
 	int currentDegree;
 	void push_front(term newTerm); //Adds a new term to the front of the list
 public:
-	poly(const poly& source) {};//initialization
+	poly(const poly& source);//initialization
 	~poly(){};
 	poly() { currentDegree = 0; };
 	void addTerm(term NewTerm); //Adds a new term to the list, in proper position according to exponent sorting
 	void print(); //Prints properly formatted polynomial
-	const poly operator+(const poly &rhs);
+	poly operator+(const poly &rhs);
+	poly add(const poly &rhs);
 };
 
 

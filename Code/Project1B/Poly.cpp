@@ -16,6 +16,12 @@ void term::print(bool firstTerm){
 	return;
 }
 
+poly::poly(const poly& source) {
+	termList = source.termList;
+	currentDegree = source.currentDegree;
+
+};//initialization
+
 void poly::addTerm(term newTerm) {
 	if (newTerm.getCoefficient() == 0) {//Ignore zero coefficient term 
 		return;
@@ -42,6 +48,9 @@ void poly::addTerm(term newTerm) {
 		//If node exists with matching exponent, just update the coefficient
 		else if (*iter == newTerm) {
 			iter->updateCoefficient(newTerm.getCoefficient());
+			if (iter->getCoefficient() == 0) {
+				termList.erase(iter); //if the updated coefficient is now zero, remove it.
+			}
 			return;
 		}
 		//If node does not exist for this degree in the middle of the list, insert new node
@@ -59,37 +68,72 @@ void poly::print() {
 	}
 	return;
 } //Prints properly formatted polynomial
-const poly poly::operator+(const poly &rhs) {
+
+poly poly::operator+(const poly &rhs) {
 	poly sum;
-	//list<term>::reverse_iterator lIter = termList.rbegin();
-	//list<term>::reverse_iterator rIter = rhs.termList.rbegin();
+	list<term>::reverse_iterator lIter = termList.rbegin();
+	list<term>::const_reverse_iterator rIter = rhs.termList.rbegin();
 
-	////Walk the lhs and rhs lists in parallel, from lowest to highest order, building a sum from the combined terms
-	////while (lIter != termList.rend()|| rIter != rhs.termList.rend())//Continue until the end of both lists have been reached
-	//{
-	//	if (rIter == rhs.termList.rend() || (*lIter<*rIter) )
-	//	//If the current left term is less than the current right term, or we've reached the end of the right list,
-	//	//Add the left term to the front of the sum
-	//	{
-	//		sum.addTerm(*lIter);
-	//		lIter++; //We added a term from the left so increment the left
+	//Walk the lhs and rhs lists in parallel, from lowest to highest order, building a sum from the combined terms
+	while (lIter != termList.rend()|| rIter != rhs.termList.rend())//Continue until the end of both lists have been reached
+	{
+		if (rIter == rhs.termList.rend() || (*lIter<*rIter) )
+		//If the current left term is less than the current right term, or we've reached the end of the right list,
+		//Add the left term to the front of the sum
+		{
+			sum.push_front(*lIter);
+			lIter++; //We added a term from the left so increment the left
 
-	//	} else if (lIter == termList.rend() || (*rIter<*lIter))
-	//	//If the current right term is less than the current left term, or we've reached the end of the left list,
-	//	//Add the right term to the front of the sum
-	//	{
-	//		sum.addTerm(*rIter);
-	//		rIter++;//We added a term from the right so increment the right
-	//	} else if (*rIter==*lIter)
-	//	//Left and right terms have equal degree so add them and add to the front
-	//	{
-	//		sum.addTerm(*lIter + *rIter);
-	//		lIter++;
-	//		rIter++;
-	//	}
-	//}
+		} else if (lIter == termList.rend() || (*lIter>*rIter))
+		//If the current right term is less than the current left term, or we've reached the end of the left list,
+		//Add the right term to the front of the sum
+		{
+			sum.push_front(*rIter);
+			rIter++;//We added a term from the right so increment the right
+		} else if (*lIter==*rIter)
+		//Left and right terms have equal degree so add them and add to the front
+		{
+			sum.push_front(*lIter + *rIter);
+			lIter++;
+			rIter++;
+		}
+	}
 	return sum; //return the resultant sum
-}
+};
+
+poly poly::add(const poly &rhs) {
+	poly sum;
+	list<term>::reverse_iterator lIter = termList.rbegin();
+	list<term>::const_reverse_iterator rIter = rhs.termList.rbegin();
+
+	//Walk the lhs and rhs lists in parallel, from lowest to highest order, building a sum from the combined terms
+	while (lIter != termList.rend() || rIter != rhs.termList.rend())//Continue until the end of both lists have been reached
+	{
+		if (rIter == rhs.termList.rend() || (*lIter<*rIter))
+			//If the current left term is less than the current right term, or we've reached the end of the right list,
+			//Add the left term to the front of the sum
+		{
+			sum.push_front(*lIter);
+			lIter++; //We added a term from the left so increment the left
+
+		}
+		else if (lIter == termList.rend() || (*lIter>*rIter))
+			//If the current right term is less than the current left term, or we've reached the end of the left list,
+			//Add the right term to the front of the sum
+		{
+			sum.push_front(*rIter);
+			rIter++;//We added a term from the right so increment the right
+		}
+		else if (*lIter == *rIter)
+			//Left and right terms have equal degree so add them and add to the front
+		{
+			sum.push_front(*lIter + *rIter);
+			lIter++;
+			rIter++;
+		}
+	}
+	return sum; //return the resultant sum
+};
 
 void poly::push_front(term newTerm) {
 	if (newTerm.getCoefficient() == 0){
