@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Poly.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Poly.h" />
