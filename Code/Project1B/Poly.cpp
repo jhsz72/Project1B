@@ -2,19 +2,28 @@
 using namespace std;
 
 void term::print(bool firstTerm){
+//Print the term in proper format 
+
+	//Suppress the '+' on the first term
 	if (!firstTerm && (coefficient > 0)) {
 		cout << '+';
 	}
+	//Suppress '1' if before X and coefficient is -1
 	if ((coefficient == -1)&&(exponent != 0)) {
 		cout << '-';
 	}
+	//Suppress 1 before X if coefficient is 1
 	else if (!((coefficient==1) && (exponent != 0))) {
 		cout << coefficient;
 	}
+
+	//Suppress X if exponent is zero
 	if (exponent == 0) {
 		return;
 	}
 	cout << 'X';
+
+	//Suppress exponent if 1
 	if (exponent != 1) {
 		cout << '^' << exponent;
 	}
@@ -26,6 +35,8 @@ poly::poly(const poly& source) {
 };
 
 void poly::addTerm(term newTerm) {
+//Add a term to the list in its proper sorted position
+
 	if (newTerm.getCoefficient() == 0) {//Ignore zero coefficient term 
 		return;
 	}
@@ -63,6 +74,7 @@ void poly::addTerm(term newTerm) {
 	}
 } 
 void poly::print() {
+ //Prints properly formatted polynomial
 	bool first = true; //initialize for first term to suppress + if necessary
 	for (list<term>::iterator iter = termList.begin(); iter != termList.end(); iter++) {
 		iter->print(first);
@@ -70,9 +82,10 @@ void poly::print() {
 	}
 	cout << endl;
 	return;
-} //Prints properly formatted polynomial
+}
 
 poly poly::operator+(const poly &rhs) {
+//Overload for adding 2 polynomials
 	poly sum;
 	list<term>::reverse_iterator lIter = termList.rbegin();
 	list<term>::const_reverse_iterator rIter = rhs.termList.rbegin();
@@ -105,6 +118,7 @@ poly poly::operator+(const poly &rhs) {
 };
 
 void poly::push_front(term newTerm) {
+//Add a term to the front, but no zero coefficients
 	if (newTerm.getCoefficient() == 0){
 		return;
 	}
@@ -112,6 +126,7 @@ void poly::push_front(term newTerm) {
 }; 
 
 void poly::loadExpression(string expression) {
+//Given a string expression, load into the list
 	int coe, exp;
 
 	polyParser p(expression, "+-");

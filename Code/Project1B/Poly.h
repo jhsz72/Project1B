@@ -42,15 +42,15 @@ public:
 class poly {
 private:
 	list<term> termList; //List that holds the terms of the polynomial
-	void push_front(term newTerm); //Adds a new term to the front of the list
+	void push_front(term newTerm); //Adds a new term to the front of the list, filters zero coefficients
+	void addTerm(term NewTerm); //Adds a new term to the list, in proper position according to exponent sorting
 public:
 	poly(const poly& source);//copy constructor
 	poly(string expression) { loadExpression(expression); }
 	poly() {};
 	~poly(){};
-	void addTerm(term NewTerm); //Adds a new term to the list, in proper position according to exponent sorting
 	void print(); //Prints properly formatted polynomial
-	poly operator+(const poly &rhs);
+	poly operator+(const poly &rhs);//Add 2 polynomials
 	void loadExpression(string expression);
 };
 

@@ -24,13 +24,13 @@ public:
 	bool hasMoreTerms();
 
 	/** Retrieve the next term
-	@return The next term. If there are no more terms, an empty
+	@return The coefficient and exponent of the next term. If there are no more terms, an empty
 	string is returned.
 	*/
-	std::string nextTerm();
-
 	bool nextTerm(int &coefficient, int &exponent);
 private:
+	std::string nextTerm(); //Returns the string value of the next term
+
 	void findNext(bool firstterm = false);//The first term is created in the constructor event
 	/** The string to be split into terms */
 	std::string polyString;
