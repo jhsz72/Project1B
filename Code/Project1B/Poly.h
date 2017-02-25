@@ -3,6 +3,8 @@
 
 #include <list>
 #include <iostream>
+#include "polyParser.h"
+
 using namespace std;
 
 class term {
@@ -14,7 +16,10 @@ public:
 	term(int coe, int exp) : coefficient(coe), exponent(exp) {}; //initialization
 	int getCoefficient() const { return coefficient; };
 	int getExponent() const { return exponent; }
-	void updateCoefficient(int coe) {coefficient += coe;}
+	void updateCoefficient(int coe) {
+		int newCoefficient = coefficient + coe;
+		coefficient = newCoefficient;
+	}
 	const bool operator>(const term &rhs) { return exponent > rhs.exponent; } //Greater than operator overload. Used to compare exponents
 	const bool operator==(const term &rhs) { return exponent == rhs.exponent; } //Equal operator overload. Used to compare exponents
 	const bool operator<(const term &rhs) { return exponent < rhs.exponent; } //Less than operator overload. Used to compare exponents
@@ -37,16 +42,16 @@ public:
 class poly {
 private:
 	list<term> termList; //List that holds the terms of the polynomial
-	int currentDegree;
 	void push_front(term newTerm); //Adds a new term to the front of the list
 public:
-	poly(const poly& source);//initialization
+	poly(const poly& source);//copy constructor
+	poly(string expression) { loadExpression(expression); }
+	poly() {};
 	~poly(){};
-	poly() { currentDegree = 0; };
-	void inputExpression(string exp);
 	void addTerm(term NewTerm); //Adds a new term to the list, in proper position according to exponent sorting
 	void print(); //Prints properly formatted polynomial
 	poly operator+(const poly &rhs);
+	void loadExpression(string expression);
 };
 
 

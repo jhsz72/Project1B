@@ -5,7 +5,12 @@ void term::print(bool firstTerm){
 	if (!firstTerm && (coefficient > 0)) {
 		cout << '+';
 	}
-	cout << coefficient;
+	if ((coefficient == -1)&&(exponent != 0)) {
+		cout << '-';
+	}
+	else if (!((coefficient==1) && (exponent != 0))) {
+		cout << coefficient;
+	}
 	if (exponent == 0) {
 		return;
 	}
@@ -18,12 +23,6 @@ void term::print(bool firstTerm){
 
 poly::poly(const poly& source) {
 	termList = source.termList;
-	currentDegree = source.currentDegree;
-
-};
-
-void inputExpression(string exp) {
-
 };
 
 void poly::addTerm(term newTerm) {
@@ -32,7 +31,6 @@ void poly::addTerm(term newTerm) {
 	}
 	if (termList.empty()||(newTerm > termList.front())) {//Highest degree goes to the front
 		termList.push_front(newTerm); //push the current at the end
-		currentDegree = newTerm.getExponent(); //Current degree is new term's degree
 	}
 	else
 	{
@@ -44,9 +42,9 @@ void poly::addTerm(term newTerm) {
 		while (iter != termList.end() && newTerm < iter->getExponent()) {
 			iter++;
 		}
-		//If we reached the end, push it on the front of the list
+		//If we reached the end, push it on the back of the list
 		if (iter == termList.end()) {
-			termList.push_front(newTerm);
+			termList.push_back(newTerm);
 			return;
 		}
 		//If node exists with matching exponent, just update the coefficient
@@ -66,10 +64,11 @@ void poly::addTerm(term newTerm) {
 } 
 void poly::print() {
 	bool first = true; //initialize for first term to suppress + if necessary
-	for (list<term>::reverse_iterator iter = termList.rbegin(); iter != termList.rend(); iter++) {
+	for (list<term>::iterator iter = termList.begin(); iter != termList.end(); iter++) {
 		iter->print(first);
 		first = false; //after printing first term, first = false
 	}
+	cout << endl;
 	return;
 } //Prints properly formatted polynomial
 
@@ -112,3 +111,11 @@ void poly::push_front(term newTerm) {
 	termList.push_front(newTerm);
 }; 
 
+void poly::loadExpression(string expression) {
+	int coe, exp;
+
+	polyParser p(expression, "+-");
+	while (p.nextTerm(coe, exp)) {
+		addTerm(term(coe, exp));
+	}
+};

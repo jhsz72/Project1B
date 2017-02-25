@@ -21,7 +21,7 @@
     <ClCompile Include="Poly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="String_Tokenizer.cpp">
+    <ClCompile Include="polyParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,10 @@
     <ClInclude Include="Poly.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="String_Tokenizer.h">
+    <ClInclude Include="polyParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Syntax_Error.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
