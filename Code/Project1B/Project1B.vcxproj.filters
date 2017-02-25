@@ -21,9 +21,15 @@
     <ClCompile Include="Poly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="String_Tokenizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Poly.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String_Tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

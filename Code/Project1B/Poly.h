@@ -43,10 +43,10 @@ public:
 	poly(const poly& source);//initialization
 	~poly(){};
 	poly() { currentDegree = 0; };
+	void inputExpression(string exp);
 	void addTerm(term NewTerm); //Adds a new term to the list, in proper position according to exponent sorting
 	void print(); //Prints properly formatted polynomial
 	poly operator+(const poly &rhs);
-	poly add(const poly &rhs);
 };
 
 
