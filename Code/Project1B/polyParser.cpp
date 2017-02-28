@@ -79,7 +79,7 @@ bool polyParser::nextTerm(int &coefficient, int &exponent){
 			//Validate each character ip to the X
 			found = okCoefficients.find(token[i]);
 			if (found == string::npos) {
-				throw Syntax_Error("Invalid coefficient value given in " + token);
+				throw Syntax_Error("Invalid coefficient value given in term " + token + " within " + polyString);
 				return false;
 			}
 			else {
@@ -115,7 +115,7 @@ bool polyParser::nextTerm(int &coefficient, int &exponent){
 			i++;
 			//if the next character is not ^ then this is not proper format
 			if (token[i] != '^') {
-				throw Syntax_Error("Invalid exponent value given in " + token);
+				throw Syntax_Error("^ missing after X in term " + token + " within " + polyString);
 				return false;
 			}
 			else {
@@ -131,7 +131,7 @@ bool polyParser::nextTerm(int &coefficient, int &exponent){
 				catch (std::exception)
 				{
 					//It didn't convert so throw an error
-					throw Syntax_Error("Invalid exponent value given in " + token);
+					throw Syntax_Error("Invalid exponent value given in term " + token + " within " + polyString);
 					return false;
 				}
 				
